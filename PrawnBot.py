@@ -1,39 +1,40 @@
-# bot.py
+# PrawnBot1.2.py
 
 import os
-
 import discord
+from discord.ext import commands
 
 from dotenv import load_dotenv
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
-client = discord.Client()
+version = '1.2'
 
-@client.event
+bot = commands.Bot(command_prefix='!')
+#client = discord.Client()
+
+@bot.event
 async def on_ready():
-    guild = discord.utils.get(client.guilds, name=GUILD)
+    guild = discord.utils.get(bot.guilds, name=GUILD)
     print(
-            f'{client.user} is connected to the following guild: \n'
+            f'{bot.user.name} is connected to the following guild: \n'
             f'{guild.name}(id: {guild.id})'
           )
     members = '\n - '.join([member.name for member in guild.members])
     print(f'Guild Members:\n - {members}')
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-    if ('@mr. prawn' in message.content.lower()) or client.user.mentioned_in(message):
-        if 'i love you' in message.content.lower():
-            print(f'{message.author} has given dobby love <3')
-            await message.channel.send('i love you too! :sparkling_heart:')
-        else:
-            print(f'{message.author} has asked for help')
-            responce = (f'How can I help you today {message.author}?')
-            await message.channel.send(responce)
+@bot.command(name='list', help='replies with a list of commands, depreciated lmao')
+async def getList(ctx):
+    commandlist = ['list','version']
+    print(f'{ctx.author} has issued the getList command!')
+    await ctx.send(f'prefix commands with a \'!\' , my current commands are: {commandlist}')
 
-client.run(TOKEN)
+@bot.command(name='version', help='replies with current version')
+async def getVersion(ctx):
+    print(f'{ctx.author} has issued the getVersion command!')
+    await ctx.send(f'my current version is: {version}')
+
+bot.run(TOKEN)
 
 # https://realpython.com/how-to-make-a-discord-bot-python/#how-to-make-a-discord-bot-in-python
