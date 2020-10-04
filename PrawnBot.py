@@ -3,13 +3,15 @@
 import os
 import discord
 from discord.ext import commands
+import random
 
 from dotenv import load_dotenv
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
-version = '1.2'
+version = '1.2.1
+'
 
 bot = commands.Bot(command_prefix='!')
 #client = discord.Client()
@@ -34,6 +36,18 @@ async def getList(ctx):
 async def getVersion(ctx):
     print(f'{ctx.author} has issued the getVersion command!')
     await ctx.send(f'my current version is: {version}')
+
+@bot.command(name='roll', help='simulates rolling dice')
+async def roll(ctx, numDnum):
+    numDice, numSide = numDnum.split('d')
+    numDice = int(numDice)
+    numSide = int(numSide)
+    print(f'{ctx.author} has issued command roll with {numDnum}')
+    dice = [
+        str(random.choice(range(1, numSide + 1 )))
+        for _ in range(numDice)
+        ]
+    await ctx.send(', '.join(dice))
 
 bot.run(TOKEN)
 
