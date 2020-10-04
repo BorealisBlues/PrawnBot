@@ -10,8 +10,7 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
-version = '1.2.1
-'
+version = '1.2'
 
 bot = commands.Bot(command_prefix='!')
 #client = discord.Client()
