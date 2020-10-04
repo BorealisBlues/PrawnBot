@@ -1,4 +1,4 @@
-# PrawnBot1.3py
+# PrawnBot1.3.1py
 
 
 import requests
@@ -9,12 +9,16 @@ import random
 
 
 from dotenv import load_dotenv
+
+#loads environment variables from a .env file in the same directory
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
-version = '1.3'
+#defined up top for easy changing
+version = '1.3.1'
 
+#sets command prefix to any character
 bot = commands.Bot(command_prefix='!')
 
 
@@ -47,14 +51,21 @@ def getNameDict(NameType):
         print(f'status code: {r.status_code}')
         return r.status_code
 
+#saves typing
+def getRandom(namelist):
+    return str(random.choice(namelist))
 
-def nameGen(nameDict):
-    nameMasc = (str(random.choice(nameDict['nameList1'])) + str(random.choice(nameDict['nameList2'])) + ' ' + str(random.choice(nameDict['nameList1'])) + str(random.choice(nameDict['nameList2'])))
-    print(f'Masculine name generated: {nameMasc}')
-    nameFem = (str(random.choice(nameDict['nameList3'])) + str(random.choice(nameDict['nameList4'])) + ' ' + str(random.choice(nameDict['nameList3'])) + str(random.choice(nameDict['nameList4'])))
-    print(f'Feminine name generated: {nameFem}')
-    nameList = [nameMasc, nameFem]
-    return nameMasc, nameFem
+
+#takes the name dictionary and a nametype, returns names
+def nameGen(nameDict, nametype):
+    if (nametype.lower() == 'masc'):
+        return (getRandom(nameDict['nameList1'])+getRandom(nameDict['nameList2']) + ' ' + (getRandom(nameDict['nameList1'])+getRandom(nameDict['nameList2'])))
+    elif (nametype.lower() == 'fem'):
+        return (getRandom(nameDict['nameList3'])+getRandom(nameDict['nameList4']) + ' ' + (getRandom(nameDict['nameList3'])+getRandom(nameDict['nameList4'])))
+    elif (nametype.lower() == 'neutral'):
+        return (getRandom(nameDict['nameList1'])+getRandom(nameDict['nameList4']) + ' ' + (getRandom(nameDict['nameList3'])+getRandom(nameDict['nameList2'])))
+    else:
+        return (getRandom(nameDict[f'nameList{random.choice(range(1,5))}'])+getRandom(nameDict[f'nameList{random.choice(range(1,5))}']) + ' ' + (getRandom(nameDict[f'nameList{random.choice(range(1,5))}'])+getRandom(nameDict[f'nameList{random.choice(range(1,5))}'])))
 
 
 # on_ready prints the connectedd guilds and members on connection
@@ -106,11 +117,16 @@ async def brick(ctx):
 
 
 #the !namegen command takes a nametype argument and returns names from fantasynamegenerator.com
-@bot.command(name='namegen',help='generates a name for you! tested inputs include Dwarf, Elf, Halfelf, Halfling')
-async def name(ctx, NameType):
+@bot.command(name='namegen',help='generates a name for you! tested inputs include Dwarf, Elf, Halfelf, Halfling! include masc, fem, or neutral to set a preference!')
+async def name(ctx, NameType, nameGender='random'):
     logCommand(ctx)
     nameDict = getNameDict(NameType)
-    nameList = nameGen(nameDict)
-    await ctx.send(f'I\'ve made two {NameType} names for you! "{nameList[0]}", and "{nameList[1]}"') 
+    Name = nameGen(nameDict, nameGender)
+    await ctx.send(f'I\'ve made a {nameGender} {NameType} name for you! "{Name}"') 
+
+@bot.command(name='ily',help='I love you too!')
+async def ily(ctx):
+    logCommand(ctx)
+    await ctx.send('I love you too! :smiling_face_with_3_hearts:')
 
 bot.run(TOKEN)
