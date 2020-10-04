@@ -1,4 +1,4 @@
-# PrawnBot1.2.py
+# PrawnBot1.2.2py
 
 import os
 import discord
@@ -10,7 +10,7 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
-version = '1.2'
+version = '1.2.2'
 
 bot = commands.Bot(command_prefix='!')
 #client = discord.Client()
@@ -25,16 +25,10 @@ async def on_ready():
     members = '\n - '.join([member.name for member in guild.members])
     print(f'Guild Members:\n - {members}')
 
-@bot.command(name='list', help='replies with a list of commands, depreciated lmao')
-async def getList(ctx):
-    commandlist = ['list','version']
-    print(f'{ctx.author} has issued the getList command!')
-    await ctx.send(f'prefix commands with a \'!\' , my current commands are: {commandlist}')
-
 @bot.command(name='version', help='replies with current version')
 async def getVersion(ctx):
     print(f'{ctx.author} has issued the getVersion command!')
-    await ctx.send(f'my current version is: {version}')
+    await ctx.send(f'my current version is: {version}, thank you for asking! :uwu:')
 
 @bot.command(name='roll', help='simulates rolling dice')
 async def roll(ctx, numDnum):
@@ -47,6 +41,11 @@ async def roll(ctx, numDnum):
         for _ in range(numDice)
         ]
     await ctx.send(', '.join(dice))
+
+@bot.command(name='prawn', help='not yet implimented')
+async def prawn(ctx):
+    print(f'{ctx.author} has issued the prawn command!')
+    await ctx.send(f'I\'m sorry {ctx.author}, but I can\'t bring you any prawn just yet :pensive:') 
 
 bot.run(TOKEN)
 
