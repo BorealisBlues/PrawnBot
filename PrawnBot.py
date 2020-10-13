@@ -107,7 +107,9 @@ async def roll(ctx, numDnum):
 async def prawn(ctx):
     logCommand(ctx)
     if (ctx.channel.id == NSFW_ID):
-        await ctx.send(f'I\'m sorry {ctx.author}, but I can\'t bring you any prawn just yet :pensive:')
+        r = requests.get('https://pornhub.com/video/random') #sends a request to pornhub's random function
+        #this redirects twice, first to the actual server with the random function, then to the video requested
+        await ctx.send(f'Here you go {ctx.author}! the prawn you asked for! :innocent: ||https://pornhub.com{r.history[1].headers["location"]}||')
     else:
         await ctx.send(f'I\'m sorry {ctx.author}, but I can\'t put prawn anywhere but your NSFW channel :pensive:')
 
