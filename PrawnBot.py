@@ -1,4 +1,4 @@
-# PrawnBot1.3.1py
+# PrawnBot1.3.2py
 
 
 import requests
@@ -14,9 +14,10 @@ from dotenv import load_dotenv
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
+NSFW_ID = int(os.getenv('NSFW_CHANNEL'))
 
 #defined up top for easy changing
-version = '1.3.1'
+version = '1.3.2'
 
 #sets command prefix to any character
 bot = commands.Bot(command_prefix='!')
@@ -105,7 +106,10 @@ async def roll(ctx, numDnum):
 @bot.command(name='prawn', help='not yet implimented')
 async def prawn(ctx):
     logCommand(ctx)
-    await ctx.send(f'I\'m sorry {ctx.author}, but I can\'t bring you any prawn just yet :pensive:')
+    if (ctx.channel.id == NSFW_ID):
+        await ctx.send(f'I\'m sorry {ctx.author}, but I can\'t bring you any prawn just yet :pensive:')
+    else:
+        await ctx.send(f'I\'m sorry {ctx.author}, but I can\'t put prawn anywhere but your NSFW channel :pensive:')
 
 
 # the !brick command replies with a brick pick
