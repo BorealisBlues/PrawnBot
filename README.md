@@ -1,6 +1,6 @@
 # PrawnBot
  - A discord bot to help out
- - Prawnbot is a simple discord bot built to assist in a handfull of tasks.
+ - Prawnbot is a simple discord bot built to assist in a handful of tasks.
  - Please store your bot token, guild name, and NSFW channel id in an .env file
  - label your bot token as DISCORD_TOKEN, guild name as DISCORD_GUILD, and nsfw id as NSFW_CHANNEL
  
